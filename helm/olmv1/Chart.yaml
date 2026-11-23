@@ -16,3 +16,8 @@ type: application
 # to the chart and its templates, including the app version.
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
 version: 0.1.0
+
+# This is the version of OLMv1 deployed by the chart. Image references without an explicit
+# tag or digest are completed with it. "devel" is used for development builds; release
+# builds override it, e.g. "helm package --app-version v1.2.3".
+appVersion: devel

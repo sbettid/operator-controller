@@ -7,7 +7,9 @@ options:
     # null follows operatorController's BoxcutterRuntime gate. Set true to deploy independently.
     enabled: null
     deployment:
-      image: quay.io/operator-framework/object-controller:devel
+      # Image without a tag or digest gets the chart appVersion appended as tag.
+      # A full reference (repo:tag or repo@digest) is used as is.
+      image: quay.io/operator-framework/object-controller
       replicas: 1
       extraArguments: []
     podDisruptionBudget:
@@ -16,7 +18,9 @@ options:
   operatorController:
     enabled: true
     deployment:
-      image: quay.io/operator-framework/operator-controller:devel
+      # Image without a tag or digest gets the chart appVersion appended as tag.
+      # A full reference (repo:tag or repo@digest) is used as is.
+      image: quay.io/operator-framework/operator-controller
       replicas: 1
       extraArguments: []
     features:
@@ -34,7 +38,9 @@ options:
   catalogd:
     enabled: true
     deployment:
-      image: quay.io/operator-framework/catalogd:devel
+      # Image without a tag or digest gets the chart appVersion appended as tag.
+      # A full reference (repo:tag or repo@digest) is used as is.
+      image: quay.io/operator-framework/catalogd
       replicas: 1
       extraArguments: []
     features:

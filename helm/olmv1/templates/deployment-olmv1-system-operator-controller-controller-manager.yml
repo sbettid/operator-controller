@@ -84,7 +84,7 @@ spec:
               value: /var/ca-certs
           {{- end }}
           {{- end }}
-          image: "{{ .Values.options.operatorController.deployment.image }}"
+          image: "{{ include "olmv1.image" (dict "image" .Values.options.operatorController.deployment.image "context" $) }}"
           name: manager
           {{- if not .Values.options.tilt.enabled }}
           livenessProbe:

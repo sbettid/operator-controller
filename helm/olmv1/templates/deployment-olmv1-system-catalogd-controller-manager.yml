@@ -87,7 +87,7 @@ spec:
               value: /var/ca-certs
           {{- end }}
           {{- end }}
-          image: "{{ .Values.options.catalogd.deployment.image }}"
+          image: "{{ include "olmv1.image" (dict "image" .Values.options.catalogd.deployment.image "context" $) }}"
           name: manager
           {{- if not .Values.options.tilt.enabled }}
           livenessProbe:
@@ -158,14 +158,14 @@ spec:
               - key: tls.key
                 path: tls.key
             optional: false
-            secretName: catalogd-service-cert-git-version
+            secretName: catalogd-service-cert-{{ include "olmv1.certVersion" $ }}
         - name: ca-certs
           secret:
             items:
               - key: ca.crt
                 path: olm-ca.crt
             optional: false
-            secretName: catalogd-service-cert-git-version
+            secretName: catalogd-service-cert-{{ include "olmv1.certVersion" $ }}
         {{- else if .Values.options.openshift.enabled }}
         - name: catalogserver-certs
           secret:

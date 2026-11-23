@@ -22,5 +22,5 @@ spec:
     algorithm: ECDSA
     rotationPolicy: Always
     size: 256
-  secretName: catalogd-service-cert-git-version
+  secretName: catalogd-service-cert-{{ include "olmv1.certVersion" $ }}
 {{- end }}

@@ -63,7 +63,7 @@ spec:
             {{- range .Values.options.objectController.deployment.extraArguments }}
             - {{ . }}
             {{- end }}
-          image: "{{ .Values.options.objectController.deployment.image }}"
+          image: "{{ include "olmv1.image" (dict "image" .Values.options.objectController.deployment.image "context" $) }}"
           {{- if .Values.options.e2e.enabled }}
           env:
             - name: GOCOVERDIR

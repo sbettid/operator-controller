@@ -26,6 +26,43 @@ catalogd-
 {{- end -}}
 
 {{/*
+Return the version of OLMv1 deployed by the chart.
+*/}}
+{{- define "olmv1.version" -}}
+{{- .Chart.AppVersion | default "devel" -}}
+{{- end -}}
+
+{{/*
+Return a container image reference. If the given image has neither a tag nor a digest,
+the chart appVersion is appended as tag. Registry ports (e.g. localhost:5000/foo) are not
+considered a tag.
+Usage: {{ include "olmv1.image" (dict "image" .Values.options.catalogd.deployment.image "context" $) }}
+*/}}
+{{- define "olmv1.image" -}}
+{{- $image := required "an image must be set for each enabled component" .image -}}
+{{- $lastSegment := last (splitList "/" $image) -}}
+{{- if or (contains "@" $image) (contains ":" $lastSegment) -}}
+{{- $image -}}
+{{- else -}}
+{{- printf "%s:%s" $image (include "olmv1.version" .context) -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Return the version suffix used for versioned certificate secret names.
+Development builds render the "git-version" placeholder, which the Makefile replaces when
+generating release and e2e manifests.
+*/}}
+{{- define "olmv1.certVersion" -}}
+{{- $version := include "olmv1.version" . -}}
+{{- if eq $version "devel" -}}
+git-version
+{{- else -}}
+{{- $version -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
 Common labels
 */}}
 {{- define "olmv1.labels" -}}
